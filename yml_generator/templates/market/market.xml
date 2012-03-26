@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="windows-1251"?>
+<!DOCTYPE yml_catalog SYSTEM "shops.dtd">
+<yml_catalog date="2000-11-16 20:17">
+	<shop>
+		<name>{{ shop.name }}</name>
+  		<company>{{ shop.company }}</company>
+  		<url>{{ shop.url }}</url>
+  		<platform>{{ shop.platform }}</platform>
+  		<version>{{ shop.version }}</version>
+  		<agency>{{ shop.agency }}</agency>
+  		<email>{{ shop.email }}</email>
+  		<currencies>
+  		{% for currency in currencies %}
+  			<currency id="{{ currency.0 }}" rate="{{ currency.1 }}"/>
+  		{% endfor %}
+		</currencies>
+		<categories>
+		{% for category in categories %}
+  			<category id="{{ category.0 }}" {% if category.1 %}parentId="{{ category.1 }}"{% endif %}>{{  category.2 }}</category>
+  		{% endfor %}
+		</categories>
+	</shop>
+</yml_catalog>
