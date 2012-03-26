@@ -89,7 +89,7 @@ SECRET_KEY = ')$7j11l1$!rgwdvvdi0(&r=*07*llf_#$&74j@%vynp%x=g0&d'
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
-#     'django.template.loaders.eggs.Loader',
+    'django.template.loaders.eggs.Loader',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -100,12 +100,10 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
 )
 
-ROOT_URLCONF = 'test_project.urls'
+ROOT_URLCONF = 'testproject.urls'
 
 TEMPLATE_DIRS = (
-    # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
-    # Always use forward slashes, even on Windows.
-    # Don't forget to use absolute paths, not relative paths.
+    os.path.join(PROJECT_ROOT, 'templates'),
 )
 
 INSTALLED_APPS = (
@@ -121,6 +119,7 @@ INSTALLED_APPS = (
     # 'django.contrib.admindocs',
     'south',
     'yml_generator',
+    'tinycart',
 )
 
 # A sample logging configuration. The only tangible logging

@@ -15,4 +15,5 @@ urlpatterns = patterns('',
     # Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls)),
     url(r'^market\.xml', include('yml_generator.urls')),
+    url(r'^cart/', include('tinycart.urls')),
 )

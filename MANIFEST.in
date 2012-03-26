@@ -1,0 +1,1 @@
+recursive-include yml_generator/templates *
