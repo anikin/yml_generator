@@ -24,8 +24,10 @@ class Command(NoArgsCommand):
             print 'Syncing %s.%s model.' % (model._meta.app_label, model.__name__)
             self.sync_market_category(model, sitemap)
         print 'All objects with `get_absolute_url` method was synced.',
-        print 'Removing orphaned sitemap.xml items.'
-        self.remove_orphaned()
+        print 'Removing orphaned offer items.'
+        self.remove_orphaned_offer()
+        print 'Removing orphaned category items.'
+        self.remove_orphaned_category()
         print 'Done.'
 
     def sync_market_offer(self, model, sitemap):
