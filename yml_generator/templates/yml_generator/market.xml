@@ -1,14 +1,15 @@
-<?xml version="1.0" encoding="windows-1251"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE yml_catalog SYSTEM "shops.dtd">
-<yml_catalog date="2000-11-16 20:17">
+<yml_catalog date="{{ date|date:"Y-m-d H:i" }}">
+{% spaceless %}
     <shop>
         <name>{{ shop.name }}</name>
         <company>{{ shop.company }}</company>
         <url>{{ shop.url }}</url>
-        <platform>{{ shop.platform }}</platform>
-        <version>{{ shop.version }}</version>
-        <agency>{{ shop.agency }}</agency>
-        <email>{{ shop.email }}</email>
+        {% if shop.platform %}<platform>{{ shop.platform }}</platform>{% endif %}
+        {% if shop.version %}<version>{{ shop.version }}</version>{% endif %}
+        {% if shop.agency %}<agency>{{ shop.agency }}</agency>{% endif %}
+        {% if shop.email %}<email>{{ shop.email }}</email>{% endif %}
         <currencies>
         {% for currency in currencies %}
             <currency id="{{ currency.0 }}" rate="{{ currency.1 }}"/>
@@ -16,28 +17,28 @@
         </currencies>
         <categories>
         {% for category in categories %}
-            <category id="{{ category.0 }}" {% if category.1 %}parentId="{{ category.1 }}"{% endif %}>{{  category.2 }}</category>
+            <category id="{{ category.content_object.pk }}" {% if category.content_object.get_parrent %}parentId="{{ category.content_object.get_parrent.pk }}"{% endif %}>{{  category.content_object.title }}</category>
         {% endfor %}
         </categories>
         <ofers>
         {% for offer in offers %}
-            <offer id="{{ offer.pk }}" type="vendor.model" available="{% if offer.is_availably %}true{% else %}false{% endif %}">
+            <offer id="{{ offer.pk }}" type="vendor.model" available="{% if offer.content_object.available %}true{% else %}false{% endif %}">
 
-                <url>{{ offer.get_absolute_url }}</url>
-                <price>{{ offer }}</price>
+                <url>http://{{ site.domain }}{{ offer.url_path }}</url>
+                <price>{{ offer.content_object.title }}</price>
                 {% if offer.get_currentyId %}<currencyId>offer.get_currentyId</currencyId>{% endif %}
-                <categoryId>{{ offer.get_category }}</categoryId >
-                {% if offer.image %}<picture>{{ offer.image.url }}</picture>{% endif %}
+                <categoryId>{{ offer.content_object.category.pk }}</categoryId >
+                {% if offer.content_object.image %}<picture>http://{{ site.domain }}{{ offer.content_object.image.url }}</picture>{% endif %}
                 {% if offer.store %}<store>true</store>{% else %}<store>false</store>{% endif %}
                 {% if offer.pickup %}<pickup>true</pickup>{% else %}<pickup>false</pickup>{% endif %}
                 {% if offer.delivery %}<delivery>true</delivery>{% else %}<delivery>false</delivery>{% endif %}
                 {% if offer.local_delivery_cost %}<local_delivery_cost>300</local_delivery_cost>{% endif %}
-                <typePrefix> {{ offer.typeprefix }} </typePrefix>
-                <vendor> {{ offer.vendor }} </vendor>
+                {% if offer.typeprefix %}<typePrefix> {{ offer.typeprefix }} </typePrefix>{% endif %}
+                {% if offer.vendor %}<vendor> {{ offer.vendor }} </vendor>{% endif %}
                 {% if offer.vendorcode %}<vendorCode> {{ offer.vendorcode }} </vendorCode>{% endif %}
                 <model> {{ offer.title }} </model>
                 <description>
-                    {{ offer.descriplion }}
+                    {{ offer.content_object.content|striptags }}
                 </description>
                 {% if offer.sales_notes %}<sales_notes>{{ offer.sales_notes }}</sales_notes>{% endif %}
                 {% if offer.manufacturer_warranty %}<manufacturer_warranty>true</manufacturer_warranty>{% endif %}
@@ -54,4 +55,5 @@
         {% endfor %}
         </ofers>
     </shop>
+{% endspaceless %}
 </yml_catalog>

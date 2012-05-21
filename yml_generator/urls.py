@@ -1,5 +1,5 @@
 from django.conf.urls.defaults import patterns, url
-from .views import market_xml
+from yml_generator.views import market_xml
 
 
 urlpatterns = patterns('',

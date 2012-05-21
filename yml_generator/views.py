@@ -1,18 +1,20 @@
 from django.shortcuts import render
-from django.utils.functional import curry, memoize
-from .loader import get_providers
+from yml_generator.models import Shop, Category, Offer
+from datetime import datetime
 
 
 def market_xml(request):
 
-    providers = get_providers()
-    for item in providers:
-        provider = item()
-        shop = provider.get_properties()
-        currencies = provider.get_currencies()
-        categories = provider.get_categories()
-        return render(request, 'market/market.xml',
-                      {'shop': shop,
-                       'currencies': currencies,
-                       'categories': categories,}, 
-                      content_type='application/xml')
+    shop = Shop.objects.filter(site=request.site)
+    try:
+        shop = shop[0]
+    except:
+        shop = None
+    categories = Category.objects.filter(enabled=True)
+    offers = Offer.objects.filter(enabled=True)
+    date = datetime.now()
+    return render(request, 'yml_generator/market.xml',
+                  {'shop': shop,
+                   'categories': categories,
+                   'offers': offers,
+                   'date': date}, content_type='application/xml')
